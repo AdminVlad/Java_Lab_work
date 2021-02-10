@@ -1,0 +1,169 @@
+//8 Варіант. Завдання   48,51,42,34,43
+package com.company;
+
+//Завдання 42
+//Продемонструйте у коді генерацію свого виключення AgeStudentException
+//у конструкторі класу Student при спробі створити об'єкт зі значенням віку помилковим.
+class Student1{
+    int age;
+    Student1(){age=0;}
+    Student1(int setAge) throws AgeStudentException{
+        if(setAge<0) throw new AgeStudentException();
+        else age=setAge;
+    }
+    public void info(){
+        System.out.println("Age: "+age);
+    }
+}
+class AgeStudentException extends Exception{
+    public AgeStudentException(){
+        System.out.println("Помилковий вік");
+    }
+}
+//Завдання 43
+//Створіть тестовий приклад, який демонструє відмінність
+//між інтерфейсами та абстрактними класами по своїм можливостям.
+abstract class ExampleAbstract{
+    protected String withoutINI;
+    protected String getWithoutINI = "String";
+    abstract void Show();
+    String getString() {
+        return getWithoutINI;
+    }
+}
+/*interface ExampleInterface{
+    String w;
+    void print(){};
+}
+*/
+
+//Завдання 48
+//Створіть просту  ієрархію спадкування, яка відповідає сутностям Людина,Студент,Викладач з відповідними властивостями.
+// Продемонструйте перевантаження конструкторів та методів, перевизначення методів,
+// особливості роботи конструкторів при спадкуванні.
+class Human{
+    int height;
+    int age;
+    public void HumanSay(){
+        System.out.println("I'm human");
+    }
+    public Human(){
+        height = 0;
+        age = 0;
+    }
+    public Human(int pHeight){
+        height = pHeight;
+    }
+    public Human(int pHeight, int pAge){
+        height = pHeight;
+        age = pAge;
+    }
+    public void About(){
+        System.out.println("Height: "+height);
+        System.out.println("Age: "+age);
+    }
+}
+class Teacher extends Human{
+    private String name = "Name";
+    public Teacher(){
+        name ="NoName";
+    }
+    public Teacher(String pName, int pAge){
+        name=pName;
+        age=pAge;
+    }
+    public void HumanSay(){
+        System.out.println("I'm Teacher");
+    }
+    public void About(){
+        System.out.println("Name: "+name);
+        System.out.println("Age: "+age);
+    }
+
+}
+class Student extends Human{
+    private String name = "Name";
+    public Student(){
+        name ="NoName";
+    }
+    public Student(String pName){
+        name =pName;
+    }
+    public void About(){
+        System.out.println("Name: "+name);
+    }
+    public void HumanSay(){
+        System.out.println("I'm Student");
+    }
+}
+//Завдання 34
+//Создайте метод, который принимает параметр - значение перечисления для месяца,
+//а возвращает кол-во дней в месяце. Февраль всегда - 28
+enum Month{
+    January,February,March,April,May,June,July,August,September,October,November,December
+}
+//Завдання 51
+//На тестовому прикладі продемонструйте відмінності використання змінних,методів звичайних та static методів та змінних.
+//Використовуйте модель, яка потребує підраховувати  кількість створених об'єктів певного типу,
+//використайте для цього static- змінні.
+
+class ExampleForStatic{
+    int someNonStaticValue;
+    static int someStaticValue;
+
+    public void nonStaticCounter() {
+        someNonStaticValue++;
+
+        System.out.println("Значення підрахунку - " + someNonStaticValue);
+    }
+    public static void staticCounter() {
+        someStaticValue++;
+        System.out.println("Значення підрахунку - " + someStaticValue);
+    }
+}
+
+
+
+
+
+
+public class lab1 {
+    public int maxDayMonth(Month choosenMonth){
+        if (choosenMonth==Month.February){
+            return 28;
+        }
+        return choosenMonth.ordinal()%2==0 ? 31 : 30;
+    }
+
+    public static void main(String[]args) {
+        lab1 example = new lab1();
+        //Завдання 34
+        System.out.println(example.maxDayMonth(Month.February));
+        //Завдання 42
+        try {
+            Student1 st = new Student1(-10);
+            st.info();
+        }
+        catch (AgeStudentException ex){
+            System.out.println(ex.getMessage());
+        }
+        Human human = new Human(120);
+        human.About();
+        Teacher teacher = new Teacher("Andorid",120);
+        teacher.About();
+        Student student = new Student();
+        student.About();
+        human.HumanSay();
+        teacher.HumanSay();
+        student.HumanSay();
+
+        ExampleForStatic exampleForStatic = new ExampleForStatic();
+        ExampleForStatic exampleForStatic2 = new ExampleForStatic();
+        ExampleForStatic.staticCounter();
+        exampleForStatic.nonStaticCounter();
+        ExampleForStatic.someStaticValue = 10;
+        ExampleForStatic.staticCounter();
+    }
+}
+
+

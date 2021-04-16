@@ -1,0 +1,225 @@
+package com.company;
+
+import java.util.ArrayList;
+
+enum TypeCage { Aviary, Aviarium, Aquarium, Terrarium; };
+enum Animals{
+    Lion("Predator",TypeCage.Aviary,100),Shark("Predator", TypeCage.Aquarium,150),
+    Leopard("Predator",TypeCage.Aviary,90), Eagle("Predator",TypeCage.Aviarium,50),
+    Giraffe("Herbivores",TypeCage.Aviary,70),Turtle("Herbivores",TypeCage.Terrarium,60),
+    Deer("Herbivores",TypeCage.Aviary,60), Parrots("Herbivores",TypeCage.Aviarium,30),
+    Fish("Herbivores",TypeCage.Aquarium,60);
+
+    private String typeAnimal;
+    private String typeCage;
+    private int priceDailyRation;
+
+    Animals(String typeAnimal, TypeCage cage, int priceDailyRation){
+        this.typeAnimal = typeAnimal;
+        this.typeCage = cage.toString();
+        this.priceDailyRation = priceDailyRation;
+    }
+
+    public String getTypeCage(){
+        return this.typeCage;
+    }
+    public String getTypeAnimal(){
+        return this.typeAnimal;
+    }
+    public int getPriceDailyRation(){
+        return this.priceDailyRation;
+    }
+};
+
+class Zoo{
+    private final int PERIODFEADING=30;
+    ArrayList<Cage> cages = new ArrayList<Cage>();
+    void putCageZoo(Cage obj){
+        this.cages.add(obj);
+    }
+    void calculateСostKeepingAnimals(){
+        for(int i = 0; i<cages.size();i++){
+            System.out.println(cages.get(i).animalInCage.get(i).name());
+            System.out.println(cages.get(i).animalInCage.get(i).getPriceDailyRation()*PERIODFEADING);
+        }
+    }
+
+    void report(){
+        for(int i = 0; i<cages.size();i++){
+            System.out.println("Клетка №"+(i));
+            System.out.println("Animal: "+cages.get(i).animalInCage.get(0).name());
+            System.out.println("Type animal: "+cages.get(i).animalInCage.get(0).getTypeAnimal());
+            System.out.println("Type cage: "+cages.get(i).animalInCage.get(0).getTypeCage());
+            System.out.println("Price daily ration: "+cages.get(i).animalInCage.get(0).getPriceDailyRation());
+            System.out.println("Quantity animals in cage: "+cages.get(i).animalInCage.size());
+            System.out.println("Kostoris (month): "+cages.get(i).animalInCage.get(0).getPriceDailyRation()
+                    *PERIODFEADING * cages.get(i).animalInCage.size()
+            );
+        }
+    }
+}
+
+abstract class Cage extends Zoo{
+    protected int limitCage;
+    ArrayList<Animals> animalInCage = new ArrayList<Animals>();
+
+    Cage(int limitCage){this.limitCage = limitCage; }
+
+    boolean checkTypeCage(Animals name,TypeCage cage){
+        if (name.getTypeCage()!=cage.name()){
+            System.out.println("Diff type of cage");
+            return false;
+        }
+        return true;
+    }
+    boolean checkCompatibilityAnimals(Animals first, Animals second){
+        if(first.getTypeAnimal() != second.getTypeAnimal()){
+            System.out.println("Not compatible! Type of animal diff");
+            return false;
+        }
+        if(first.name()!=second.name()){
+            System.out.println("Not compatible! Name of animal diff");
+            return false;
+        }
+        return true;
+    }
+    boolean checkLimitCage(int limitCage, int quantityAnimals){
+        if(limitCage<=quantityAnimals){
+            System.out.println("Cage if FULL");
+            return false;
+        }
+        return true;
+    }
+
+}
+class CageAviary extends Cage{
+    protected int limitCage;
+    CageAviary(int limitCage){
+        super(limitCage);
+    }
+    public void putAnimal(Animals name){
+        if (super.checkTypeCage(name,TypeCage.Aviary)){
+            if(super.checkLimitCage(super.limitCage,animalInCage.size())){
+                if (super.animalInCage.size()==0){
+                    super.animalInCage.add(name);
+                }
+                else if (checkCompatibilityAnimals(super.animalInCage.get(super.animalInCage.size()-1),name)){
+                    super.animalInCage.add(name);
+                }
+            }
+        }
+
+    }
+    void info(){
+        for (int i=0;i<super.animalInCage.size();i++){
+            System.out.println(super.animalInCage.get(i));
+        }
+    }
+}
+class CageAviarium extends Cage{
+    protected int limitCage;
+    CageAviarium(int limitCage){
+        super(limitCage);
+    }
+    public void putAnimal(Animals name){
+        if (super.checkTypeCage(name,TypeCage.Aviarium)){
+            if(super.checkLimitCage(super.limitCage,animalInCage.size())){
+                if (super.animalInCage.size()==0){
+                    super.animalInCage.add(name);
+                }
+                else if (checkCompatibilityAnimals(super.animalInCage.get(super.animalInCage.size()-1),name)){
+                    super.animalInCage.add(name);
+                }
+            }
+        }
+
+    }
+    void info(){
+        for (int i=0;i<super.animalInCage.size();i++){
+            System.out.println(super.animalInCage.get(i));
+        }
+    }
+}
+class CageAquarium extends Cage{
+    protected int limitCage;
+    CageAquarium(int limitCage){
+        super(limitCage);
+    }
+    public void putAnimal(Animals name){
+        if (super.checkTypeCage(name,TypeCage.Aquarium)){
+            if(super.checkLimitCage(super.limitCage,animalInCage.size())){
+                if (super.animalInCage.size()==0){
+                    super.animalInCage.add(name);
+                }
+                else if (checkCompatibilityAnimals(super.animalInCage.get(super.animalInCage.size()-1),name)){
+                    super.animalInCage.add(name);
+                }
+            }
+        }
+
+    }
+    void info(){
+        for (int i=0;i<super.animalInCage.size();i++){
+            System.out.println(super.animalInCage.get(i));
+        }
+    }
+}
+class CageTerrarium extends Cage{
+    protected int limitCage;
+    CageTerrarium(int limitCage){
+        super(limitCage);
+    }
+    public void putAnimal(Animals name){
+        if (super.checkTypeCage(name,TypeCage.Terrarium)){
+            if(super.checkLimitCage(super.limitCage,animalInCage.size())){
+                if (super.animalInCage.size()==0){
+                    super.animalInCage.add(name);
+                }
+                else if (checkCompatibilityAnimals(super.animalInCage.get(super.animalInCage.size()-1),name)){
+                    super.animalInCage.add(name);
+                }
+            }
+        }
+
+    }
+    void info(){
+        for (int i=0;i<super.animalInCage.size();i++){
+            System.out.println(super.animalInCage.get(i));
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Zoo zoo = new Zoo();
+
+        CageAviary cageAviary = new CageAviary(2);
+        cageAviary.putAnimal(Animals.Lion);
+        cageAviary.putAnimal(Animals.Lion);
+
+        CageAviarium cageAviarium = new CageAviarium(2);
+        cageAviarium.putAnimal(Animals.Eagle);
+        cageAviarium.putAnimal(Animals.Eagle);
+
+        CageAquarium cageAquarium = new CageAquarium(4);
+        cageAquarium.putAnimal(Animals.Fish);
+        cageAquarium.putAnimal(Animals.Fish);
+        cageAquarium.putAnimal(Animals.Fish);
+        cageAquarium.putAnimal(Animals.Fish);
+
+
+        CageTerrarium cageTerrarium = new CageTerrarium(3);
+        cageTerrarium.putAnimal(Animals.Turtle);
+        cageTerrarium.putAnimal(Animals.Turtle);
+        cageTerrarium.putAnimal(Animals.Turtle);
+
+        zoo.putCageZoo(cageAviary);
+        zoo.putCageZoo(cageAviarium);
+        zoo.putCageZoo(cageAquarium);
+        zoo.putCageZoo(cageTerrarium);
+        zoo.report();
+
+
+
+    }
+}
